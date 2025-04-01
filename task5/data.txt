@@ -1,0 +1,3 @@
+Name = sai, Year =  1, Age =  21
+Name = hai, Year =  2, Age =  31
+Name = kavin, Year =  3, Age =  41
