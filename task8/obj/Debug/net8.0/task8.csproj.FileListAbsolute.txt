@@ -1,0 +1,15 @@
+d:\presidio_tasks\C#\task8\bin\Debug\net8.0\task8.exe
+d:\presidio_tasks\C#\task8\bin\Debug\net8.0\task8.deps.json
+d:\presidio_tasks\C#\task8\bin\Debug\net8.0\task8.runtimeconfig.json
+d:\presidio_tasks\C#\task8\bin\Debug\net8.0\task8.dll
+d:\presidio_tasks\C#\task8\bin\Debug\net8.0\task8.pdb
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.GeneratedMSBuildEditorConfig.editorconfig
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.AssemblyInfoInputs.cache
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.AssemblyInfo.cs
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.csproj.CoreCompileInputs.cache
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.sourcelink.json
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.dll
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\refint\task8.dll
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.pdb
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\task8.genruntimeconfig.cache
+d:\presidio_tasks\C#\task8\obj\Debug\net8.0\ref\task8.dll
