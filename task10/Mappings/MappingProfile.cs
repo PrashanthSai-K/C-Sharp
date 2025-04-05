@@ -9,11 +9,10 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<CreateBooks, Book>()
-        .ForMember(destinationMember => destinationMember.Id, opt => opt.Ignore());
+        CreateMap<CreateBooks, Book>();
+
+        CreateMap<UpdateBooks, Book>();
         
-        CreateMap<UpdateBooks, Book>()
-        .ForMember(destinationMember => destinationMember.Id, opt => opt.Ignore());
-        
+        CreateMap<CreateUser, User>();
     }
 }
