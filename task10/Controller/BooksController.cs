@@ -52,6 +52,12 @@ namespace task10.Controller
             try
             {
                 var book = await _bookRepo.GetById(id);
+
+                if (book == null)
+                {
+                    return NotFound(new { Message = "Book fot found for the given id" });
+                }
+
                 return Ok(new { Message = "Book found", data = book });
             }
             catch (System.Exception ex)
