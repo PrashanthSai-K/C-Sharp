@@ -1,0 +1,6 @@
+@TaskManagement_RESTAPI_HostAddress = http://localhost:5085
+
+GET {{TaskManagement_RESTAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task10", "task10\task10.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestTask10", "UnitTestTask10\UnitTestTask10.csproj", "{23843A7C-F50D-4A12-8CBC-49D30980A530}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement-RESTAPI", "TaskManagement-RESTAPI\TaskManagement-RESTAPI.csproj", "{324F7DF8-3D1A-4F63-B4A9-DFCAC4A14DCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{23843A7C-F50D-4A12-8CBC-49D30980A530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23843A7C-F50D-4A12-8CBC-49D30980A530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23843A7C-F50D-4A12-8CBC-49D30980A530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{324F7DF8-3D1A-4F63-B4A9-DFCAC4A14DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{324F7DF8-3D1A-4F63-B4A9-DFCAC4A14DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{324F7DF8-3D1A-4F63-B4A9-DFCAC4A14DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{324F7DF8-3D1A-4F63-B4A9-DFCAC4A14DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
