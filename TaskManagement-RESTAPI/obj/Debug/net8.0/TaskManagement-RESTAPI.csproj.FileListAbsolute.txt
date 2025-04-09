@@ -113,3 +113,11 @@ D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\zh-Hans\Microsoft.C
 D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\AutoMapper.dll
 D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\presidio_tasks\C#\TaskManagement-RESTAPI\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

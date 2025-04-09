@@ -9,5 +9,10 @@ public interface IUserRepository
     Task<IEnumerable<User>> GetAllUsers();
     // IQueryable<User> GetByCondition(Expression<Func<User, bool>> expression);
     Task<User?> GetUserById(int id);
+    Task<User?> GetUserByUsername(string username);
+    Task<User?> GetUserByEmail(string email);
+    void CreateUser(User user);
+    void UpdateUser(User user);
+    void DeleteUser(User user);
 
 }

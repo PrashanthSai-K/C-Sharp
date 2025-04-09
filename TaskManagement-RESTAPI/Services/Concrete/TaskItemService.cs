@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using TaskManagement_RESTAPI.Entities.Models;
+using TaskManagement_RESTAPI.Entities.RequestParams;
 using TaskManagement_RESTAPI.Exceptions;
 using TaskManagement_RESTAPI.Repositories.Interfaces;
 using TaskManagement_RESTAPI.Services.Contracts;
@@ -21,20 +22,20 @@ public class TaskItemService : ITaskItemService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TaskItem>> GetAllTasks()
+    public async Task<IEnumerable<TaskItem>> GetAllTasks(TaskQueryParams queryParams)
     {
-        return await _repositoryManager.TaskItem.GetAllTasks();
+        return await _repositoryManager.TaskItem.GetAllTasks(queryParams);
     }
 
     public async Task<TaskItem?> GetTaskById(int id)
     {
-        return await _repositoryManager.TaskItem.GetTaskById(id);
+        return await _repositoryManager.TaskItem.GetTaskById(id) ?? throw new TaskNotFoundException(id);
     }
 
     public async Task CreateTask(CreateTask item)
     {
         var TaskItem = _mapper.Map<TaskItem>(item);
-        var user = await _repositoryManager.User.GetUserById(TaskItem.UserId);
+        var user = await _repositoryManager.User.GetUserById(TaskItem.UserId) ?? throw new UserNotFoundException(TaskItem.UserId);
         _repositoryManager.TaskItem.CreateTask(TaskItem);
         await _repositoryManager.SaveAsync();
     }
@@ -42,7 +43,7 @@ public class TaskItemService : ITaskItemService
     public async Task UpdateTask(UpdateTask item)
     {
         var TaskItem = _mapper.Map<TaskItem>(item);
-        var task = await _repositoryManager.TaskItem.GetTaskById(TaskItem.Id);
+        var task = await _repositoryManager.TaskItem.GetTaskById(TaskItem.Id) ?? throw new TaskNotFoundException(TaskItem.Id);
         TaskItem.UserId = task.UserId;
         _repositoryManager.TaskItem.UpdateTask(TaskItem);
         await _repositoryManager.SaveAsync();
@@ -50,7 +51,7 @@ public class TaskItemService : ITaskItemService
 
     public async Task DeleteTask(int id)
     {
-        var task = await _repositoryManager.TaskItem.GetTaskById(id);
+        var task = await _repositoryManager.TaskItem.GetTaskById(id) ?? throw new TaskNotFoundException(id);
         _repositoryManager.TaskItem.DeleteTask(task);
         await _repositoryManager.SaveAsync();
     }

@@ -1,15 +1,40 @@
+using System.Security.Cryptography.Xml;
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using TaskManagement_RESTAPI.AppDataContext;
 using TaskManagement_RESTAPI.Exceptions;
 using TaskManagement_RESTAPI.Repositories.Concrete;
 using TaskManagement_RESTAPI.Repositories.Interfaces;
+using TaskManagement_RESTAPI.Security;
 using TaskManagement_RESTAPI.Services.Concrete;
 using TaskManagement_RESTAPI.Services.Contracts;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT AUthentication",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference{Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+            },
+            []
+        }
+    });
+});
 
 DotEnv.Load();
 
@@ -38,6 +63,14 @@ builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddAuthentication("Bearer")
+        .AddJwtBearer("Bearer", options =>
+        {
+            options.TokenValidationParameters = new JwtTokenGenerator().TokenValidationParameters();
+        });
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -50,6 +83,9 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -25,6 +25,18 @@ public class GlobalExceptionHandler : IExceptionHandler
                 errorResponse.StatusCode = 404;
                 httpContext.Response.StatusCode = 404;
                 break;
+            case TaskNotFoundException:
+                errorResponse.StatusCode = 404;
+                httpContext.Response.StatusCode = 404;
+                break;
+            case UsernameNotFoundException:
+                errorResponse.StatusCode = 401;
+                httpContext.Response.StatusCode = 401;
+                break;
+            case LoginPasswordWrongException:
+                errorResponse.StatusCode = 401;
+                httpContext.Response.StatusCode = 401;
+                break;
             default:
                 errorResponse.StatusCode = 500;
                 httpContext.Response.StatusCode = 500;
