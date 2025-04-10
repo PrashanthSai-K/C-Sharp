@@ -21,7 +21,7 @@ namespace TaskManagement_RESTAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, User")]
+        // [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> GetAllTasksAsync([FromQuery] TaskQueryParams queryParams)
         {
             Console.WriteLine("called");

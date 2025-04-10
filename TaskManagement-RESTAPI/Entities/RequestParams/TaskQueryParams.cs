@@ -10,6 +10,10 @@ public class TaskQueryParams
     public string? SortBy {get;set;} = "DueDate";
     public bool Descending {get;set;} = false;
 
+    public DateTime StartDate {get;set;}
+    public DateTime EndDate {get;set;}
+
+    public string? SearchTerm {get;set;}
     
     const int MaxPageSize = 50;
     public int PageNumber {get;set;} = 1;

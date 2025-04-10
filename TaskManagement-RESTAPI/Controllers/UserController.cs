@@ -26,6 +26,14 @@ namespace TaskManagement_RESTAPI.Controllers
             return Ok(new { Data = users });
         }
 
+        [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _serviceManager.UserService.GetUserById(id);
+            return Ok(new {Message = "User found.", User = user});
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateUser(CreateUser user)

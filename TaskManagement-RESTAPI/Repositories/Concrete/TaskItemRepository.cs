@@ -1,14 +1,13 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement_RESTAPI.AppDataContext;
 using TaskManagement_RESTAPI.Entities.Models;
 using TaskManagement_RESTAPI.Entities.RequestParams;
-using TaskManagement_RESTAPI.Exceptions;
 using TaskManagement_RESTAPI.Repositories.Base;
 using TaskManagement_RESTAPI.Repositories.Interfaces;
 
 namespace TaskManagement_RESTAPI.Repositories.Concrete;
+
+
 
 public class TaskItemRepository : GenericRepository<TaskItem>, ITaskItemRepository
 {
@@ -18,7 +17,7 @@ public class TaskItemRepository : GenericRepository<TaskItem>, ITaskItemReposito
     {
         _context = context;
     }
-
+    
     public async Task<IEnumerable<TaskItem>> GetAllTasks(TaskQueryParams queryParams)
     {
         var tasks = GetAll();
@@ -31,6 +30,15 @@ public class TaskItemRepository : GenericRepository<TaskItem>, ITaskItemReposito
 
         if (queryParams.IsCompleted.HasValue)
             tasks = tasks.Where(t => t.IsCompleted == queryParams.IsCompleted);
+
+        if (queryParams.OverDue.HasValue && queryParams.OverDue == true)
+            tasks = tasks.Where(t => t.DueDate <= DateTime.Now);
+        
+        if(!string.IsNullOrWhiteSpace(queryParams.SearchTerm))
+            tasks = tasks.Where(t => t.Name.ToLower().Contains(queryParams.SearchTerm.Trim().ToLower()));
+
+        if(queryParams.EndDate > queryParams.StartDate)
+            tasks = tasks.Where(t => t.DueDate >= queryParams.StartDate && t.DueDate <= queryParams.EndDate.AddDays(1));
 
         tasks = queryParams.SortBy?.ToLower() switch
         {

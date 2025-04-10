@@ -26,9 +26,14 @@ public class UserService : IUserService
         return await _repositoryManager.User.GetAllUsers();
     }
 
-    public async Task<User?> GetUserById(int id)
+    public async Task<User> GetUserById(int id)
     {
         return await _repositoryManager.User.GetUserById(id) ?? throw new UserNotFoundException(id); ;
+    }
+
+    public async Task<User> GetUserByUsername(string username)
+    {
+        return await _repositoryManager.User.GetUserByUsername(username) ?? throw new UsernameNotFoundException(username);
     }
 
     public async Task CreateUser(CreateUser user)
@@ -58,6 +63,19 @@ public class UserService : IUserService
         await _repositoryManager.SaveAsync();
     }
 
+    public async Task UpdateUserRefreshToken(User user)
+    {
+        // Console.WriteLine(user.Username);
+
+        // var User = _mapper.Map<User>(user);
+
+        // Console.WriteLine(User.Username);
+
+        _repositoryManager.User.UpdateUser(user);
+        await _repositoryManager.SaveAsync();
+    }
+
+
     public async Task DeleteUser(int id)
     {
         var user = await _repositoryManager.User.GetUserById(id) ?? throw new UserNotFoundException(id); ;
@@ -74,4 +92,5 @@ public class UserService : IUserService
         }
         return user;
     }
+
 }
