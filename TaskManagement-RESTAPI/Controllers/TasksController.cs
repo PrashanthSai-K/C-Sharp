@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using TaskManagement_RESTAPI.Entities.Models;
 using TaskManagement_RESTAPI.Entities.RequestParams;
 using TaskManagement_RESTAPI.Services.Contracts;
@@ -21,7 +22,8 @@ namespace TaskManagement_RESTAPI.Controllers
         }
 
         [HttpGet]
-        // [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
+        [DisableRateLimiting]
         public async Task<IActionResult> GetAllTasksAsync([FromQuery] TaskQueryParams queryParams)
         {
             Console.WriteLine("called");

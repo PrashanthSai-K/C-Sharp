@@ -1,5 +1,8 @@
 using System.Security.Cryptography.Xml;
+using System.Threading.RateLimiting;
 using dotenv.net;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -69,6 +72,24 @@ builder.Services.AddAuthentication("Bearer")
             options.TokenValidationParameters = new JwtTokenGenerator().TokenValidationParameters();
         });
 
+builder.Services.AddRateLimiter(rateLimitingOptions =>
+{
+    rateLimitingOptions.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetSlidingWindowLimiter(
+            partitionKey: (httpContext.Connection.RemoteIpAddress?.ToString() ?? httpContext.User.Identity?.Name) ?? "default",
+            factory: partition => new SlidingWindowRateLimiterOptions
+            {
+                AutoReplenishment = true,
+                SegmentsPerWindow = 6,
+                PermitLimit = 20,
+                QueueLimit = 10,
+                Window = TimeSpan.FromSeconds(60)
+            }
+        )
+    );
+    rateLimitingOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -83,6 +104,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
