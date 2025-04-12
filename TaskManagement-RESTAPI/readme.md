@@ -236,6 +236,64 @@ app.UseRateLimiter();
 - After configurnig our global rate limiter all our api enpoints will be rate limited.
 - If we want to disable rate limiter for a particular  controller class or API method, we can add `[DisableRateLimiting]` attribute. 
 
+### 🚀 Redis Caching
+
+- **Redis Caching** : Using Redis to store frequently accessed data temporarily to reduce database load and increase application performance.
+- **Generic Interface** : Creating a generic interface to handle caching for different types of data (e.g., objects, lists).
+- **Cache Invalidation** : Ensuring that cached data is updated or removed when the underlying data changes to avoid serving outdated information.
+
+#### Configure Cache server
+
+```
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
+{
+    return ConnectionMultiplexer.Connect(
+            new ConfigurationOptions
+            {
+                EndPoints = { Environment.GetEnvironmentVariable("REDIS_SERVER")
+                            ?? throw new Exception("Redis Server environment variable not set") },
+                User = Environment.GetEnvironmentVariable("REDIS_USER")
+                        ?? throw new Exception("Redis User environment variable not set"),
+                Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD")
+                        ?? throw new Exception("Redis Password environment variable no set")
+            }
+        );
+});
+
+```
+
+#### Create Generic Interface and Implementation service
+
+```
+public interface ICacheService
+{
+    Task<T?> GetCacheAsync<T>(string key) ;
+    Task SetCacheAsync<T>(string key, T value, TimeSpan? expiry = null);
+    Task RemoveCacheAsync<T>(string key);
+    Task AddKeyToSetAsync(string key, string cacheKey);
+    Task InvalidateAllKeysInSet(string key);
+}
+```
+
+#### Use Caching in a Controller
+
+```
+private readonly ICacheService _cache;
+
+public async Task<IActionResult> GetAllTasksAsync([FromQuery] TaskQueryParams queryParams)
+{
+    var key = $"GetAllTasks:{queryParams.UserId}:{queryParams.IsCompleted}:{queryParams.OverDue}:{queryParams.SortBy}:{queryParams.Descending}:{queryParams.StartDate}:{queryParams.EndDate}:{queryParams.SearchTerm}:{queryParams.PageNumber}:{queryParams.PageSize}";
+    var data = await _cache.GetCacheAsync<IEnumerable<TaskItem>>(key);
+    if (data != null)
+    {
+        return Ok(new { Message = "From cache", data = data });
+    }
+    var tasks = await _serviceManager.TaskItemService.GetAllTasks(queryParams);
+    await _cache.SetCacheAsync<IEnumerable<TaskItem>>(key, tasks, TimeSpan.FromSeconds(30));
+    await _cache.AddKeyToSetAsync("Tasks", key);
+    return Ok(new { data = tasks });
+}
+```
 
 ### 🧪 Packages Used :
 
@@ -251,17 +309,22 @@ app.UseRateLimiter();
 
 - Swagger (Swashbuckle)
 
+- StackExchange.Redis
+
+
 ### ✅ Getting Started
 
 - Clone the repo
 
 - Configure DB connection by creating `.env` file in project root foler
 
-- Update Database with entities defined:
+- Update Mysql Database with entities defined:
 
 ```
 dotnet ef database update
 ```
+
+- Configure Redis cache server (use .env)
 
 - Run the API:
 
