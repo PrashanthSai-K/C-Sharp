@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 using TaskManagement_RESTAPI.AppDataContext;
 using TaskManagement_RESTAPI.Exceptions;
 using TaskManagement_RESTAPI.Repositories.Concrete;
@@ -49,6 +50,23 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 34))
     )
 );
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
+{
+    return ConnectionMultiplexer.Connect(
+            new ConfigurationOptions
+            {
+                EndPoints = { Environment.GetEnvironmentVariable("REDIS_SERVER")
+                            ?? throw new Exception("Redis Server environment variable not set") },
+                User = Environment.GetEnvironmentVariable("REDIS_USER")
+                        ?? throw new Exception("Redis User environment variable not set"),
+                Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD")
+                        ?? throw new Exception("Redis Password environment variable no set")
+            }
+        );
+});
+
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 builder.Services.AddControllers();
 

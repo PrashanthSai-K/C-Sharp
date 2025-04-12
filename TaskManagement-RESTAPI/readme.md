@@ -204,6 +204,37 @@ public class TaskQueryParams
 ```
 http://localhost:5085/api/Tasks?UserId=1&IsCompleted=false&OverDue=false&SortBy=duedate&Descending=true&StartDate=2025-04-08&EndDate=2025-04-09&SearchTerm=string&PageNumber=3&PageSize=1
 ```
+### 🚦 Rate Limiting
+
+- **Rate Limiting** : Restricting the number of requests a client can make to an API in a given time window. Uses Client IP to impose limits.
+
+- **Sliding Window** : A type of rate-limiting mechanism that maintains the rate limit dynamically based on the time of the requests.
+
+```
+builder.Services.AddRateLimiter(rateLimitingOptions =>
+{
+    rateLimitingOptions.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetSlidingWindowLimiter(
+            partitionKey: (httpContext.Connection.RemoteIpAddress?.ToString() ?? httpContext.User.Identity?.Name) ?? "default",
+            factory: partition => new SlidingWindowRateLimiterOptions
+            {
+                AutoReplenishment = true,
+                SegmentsPerWindow = 6,
+                PermitLimit = 20,
+                QueueLimit = 10,
+                Window = TimeSpan.FromSeconds(60)
+            }
+        )
+    );
+    rateLimitingOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
+
+app.UseRateLimiter();
+```
+
+- After configurnig our global rate limiter all our api enpoints will be rate limited.
+- If we want to disable rate limiter for a particular  controller class or API method, we can add `[DisableRateLimiting]` attribute. 
 
 
 ### 🧪 Packages Used :
@@ -240,9 +271,9 @@ dotnet run
 
 ### 📌 Output
 
-![image](https://github.com/user-attachments/assets/a4d25d1b-85a5-4f34-98c8-cf7b9bfb341f)
-
 ![image](https://github.com/user-attachments/assets/760e1d11-3fa2-40bd-a81f-f167947ef420)
+
+![image](https://github.com/user-attachments/assets/a4d25d1b-85a5-4f34-98c8-cf7b9bfb341f)
 
 ![image](https://github.com/user-attachments/assets/172c1299-e25b-473e-b9fd-a0898e460f35)
 

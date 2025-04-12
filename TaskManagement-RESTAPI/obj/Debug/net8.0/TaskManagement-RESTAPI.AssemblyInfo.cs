@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaskManagement-RESTAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67cfc912e036110f025c849cb3b64ccdd6d48174")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9087cc312d5a0cde60a873f70e4425e17d2cca53")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaskManagement-RESTAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaskManagement-RESTAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
