@@ -1,4 +1,3 @@
-
 # Task (Additional): Task Management REST API
 
 ### 🎯Objective :
@@ -240,4 +239,15 @@ dotnet run
 ```
 
 ### 📌 Output
+
+![image](https://github.com/user-attachments/assets/a4d25d1b-85a5-4f34-98c8-cf7b9bfb341f)
+
+![image](https://github.com/user-attachments/assets/760e1d11-3fa2-40bd-a81f-f167947ef420)
+
+![image](https://github.com/user-attachments/assets/172c1299-e25b-473e-b9fd-a0898e460f35)
+
+![image](https://github.com/user-attachments/assets/125cb256-cbe0-438a-95ab-7d0eb42de58c)
+
+![image](https://github.com/user-attachments/assets/796140e4-4d0e-4d9f-9318-9d863500bf16)
+
 
